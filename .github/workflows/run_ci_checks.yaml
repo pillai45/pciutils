@@ -14,62 +14,6 @@ jobs:
   trigger_workflows:
     runs-on: ubuntu-latest
     steps:
-      uses: projectceladon/celadonworkflows/.github/workflows/trigger_ci.yml@test-apigee
+      uses: projectceladon/workflows/.github/workflows/trigger_ci.yml@main
       with:
         EVENT: ${{ toJSON(github.event) }}
-
-      # - name: Extract values from JSON and make API request
-      #   run: |
-
-      #     # Extract CLIENT_ID and CLIENT_SECRET from data.json
-      #     # echo CLIENT_ID=$(jq -r '.CLIENT_ID' /tmp/data.json)
-      #     # echo CLIENT_SECRET=$(jq -r '.CLIENT_SECRET' /tmp/data.json)
-
-      #     # echo $CLIENT_ID
-      #     # echo $CLIENT_SECRET
-
-      #     # Use the extracted values in the curl command
-      #     # RESPONSE=$(curl --location 'https://apis-sandbox.intel.com/v1/auth/token' \
-      #     #             --header 'Content-Type: application/x-www-form-urlencoded' \
-      #     #             --data-urlencode client_id=$(jq -r '.CLIENT_ID' /tmp/data.json) \
-      #     #             --data-urlencode client_secret=$(jq -r '.CLIENT_SECRET' /tmp/data.json) \
-      #     #             --data-urlencode 'grant_type=client_credentials')
-
-      #     # # Print the response (for debugging purposes)
-      #     # echo "Response: $RESPONSE"
-
-      # - name: Get Token
-      #   run: |
-      #     # printenv
-      #     RESPONSE=$(curl --location 'https://apis-sandbox.intel.com/v1/auth/token' \
-      #                 --header 'Content-Type: application/x-www-form-urlencoded' \
-      #                 --data-urlencode 'client_id=${{ secrets.CLIENT_ID }}'\
-      #                 --data-urlencode 'client_secret=${{ secrets.CLIENT_SECRET }}' \
-      #                 --data-urlencode 'grant_type=client_credentials')
-
-      #     TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
-      #     if [ -z "$TOKEN" ]; then
-      #         echo "Error: Failed to retrieve access token"
-      #         exit 1
-      #     fi
-      #     echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-
-
-      # - name: TriggerBuild with Event
-      #   if: success()
-      #   env:
-      #     TOKEN: ${{ env.TOKEN }}
-      #   run: |-
-      #         EVENT_DATA='${{ toJSON(github.event) }}'
-      #         retries=3
-      #         while [ $retries -gt 0 ]; do
-      #             if curl --location --request POST 'https://apis-sandbox.intel.com/androidcieventpublisher/v1/publish' \
-      #                 --header 'Content-Type: application/json' \
-      #                 --header 'x-jenkins-event: jenkins' \
-      #                 --header "Authorization: Bearer $TOKEN" \
-      #                 --data "$EVENT_DATA"; then
-      #                 break
-      #             fi
-      #             retries=$((retries-1))
-      #             sleep 1
-      #         done
