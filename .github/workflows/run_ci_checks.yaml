@@ -12,8 +12,6 @@ on:
 permissions: read-all
 jobs:
   trigger_workflows:
-    runs-on: ubuntu-latest
-    steps:
       uses: projectceladon/workflows/.github/workflows/trigger_ci.yml@main
       with:
         EVENT: ${{ toJSON(github.event) }}
